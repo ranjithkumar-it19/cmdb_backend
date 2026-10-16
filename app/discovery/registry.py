@@ -11,9 +11,13 @@ class DiscoveryAdapterRegistry:
 
     _adapters: Dict[str, Type[BaseDiscoveryAdapter]] = {
         "mock": MockDiscoveryAdapter,
+        "ip_range": MockDiscoveryAdapter,
         "windows_winrm": WindowsDiscoveryAdapter,
+        "windows": WindowsDiscoveryAdapter,
         "linux_ssh": LinuxDiscoveryAdapter,
+        "linux": LinuxDiscoveryAdapter,
         "snmp": SnmpDiscoveryAdapter,
+        "cloud": MockDiscoveryAdapter,
     }
 
     @classmethod

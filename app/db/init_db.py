@@ -11,6 +11,7 @@ from app.models import (
     Permission,
     ReconciliationRule,
     DiscoverySource,
+    Vulnerability,
 )
 
 
@@ -117,4 +118,161 @@ def init_db(db: Session) -> None:
         if not src:
             db.add(DiscoverySource(**s_data))
     db.commit()
+
+    # 6. Seed Default Lansweeper Vulnerabilities / CVEs
+    default_cves = [
+        {
+            "cve_id": "CVE-2023-9876",
+            "title": "Windows Kernel Elevation of Privilege Vulnerability",
+            "description": "An elevation of privilege vulnerability in Microsoft Windows Kernel allows authorized local attackers to execute arbitrary code with SYSTEM privileges.",
+            "risk_score": 9.2,
+            "severity": "critical",
+            "patch_available": True,
+            "exploited_in_wild": True,
+            "vendor": "Microsoft",
+            "affected_product": "Windows Server 2022 / Windows 11 Enterprise",
+            "affected_assets_count": 61,
+            "is_ignored": False,
+        },
+        {
+            "cve_id": "CVE-2007-4559",
+            "title": "Python TarFile Directory Traversal Arbitrary File Overwrite",
+            "description": "Directory traversal vulnerability in the extract and extractall functions in the tarfile module in Python allows user-assisted remote attackers to overwrite arbitrary files.",
+            "risk_score": 8.0,
+            "severity": "high",
+            "patch_available": True,
+            "exploited_in_wild": False,
+            "vendor": "Python / Linux",
+            "affected_product": "Python 3.x Standard Library on Ubuntu & RHEL",
+            "affected_assets_count": 46,
+            "is_ignored": False,
+        },
+        {
+            "cve_id": "CVE-2023-7890",
+            "title": "Apple WebKit Out-of-Bounds Read Information Disclosure",
+            "description": "Processing maliciously crafted web content may disclose sensitive user memory due to insufficient input bounds checking in Apple Safari and WebKit.",
+            "risk_score": 6.9,
+            "severity": "medium",
+            "patch_available": True,
+            "exploited_in_wild": False,
+            "vendor": "Apple",
+            "affected_product": "macOS Sonoma & Safari 17",
+            "affected_assets_count": 39,
+            "is_ignored": False,
+        },
+        {
+            "cve_id": "CVE-2007-1894",
+            "title": "Apache HTTP Server mod_proxy Reverse Proxy Denial of Service",
+            "description": "The worker_proxy function in Apache HTTP Server allows remote attackers to cause a denial of service via malformed HTTP requests.",
+            "risk_score": 5.7,
+            "severity": "medium",
+            "patch_available": True,
+            "exploited_in_wild": False,
+            "vendor": "Apache",
+            "affected_product": "Apache HTTP Server 2.4.x",
+            "affected_assets_count": 39,
+            "is_ignored": False,
+        },
+        {
+            "cve_id": "CVE-2024-21413",
+            "title": "Microsoft Outlook Remote Code Execution Vulnerability (MonikerLink)",
+            "description": "Flaw in Outlook parsing of 'file://' monikers bypasses Office Protected View and leads to remote code execution and NTLM credential leakage.",
+            "risk_score": 9.8,
+            "severity": "critical",
+            "patch_available": True,
+            "exploited_in_wild": True,
+            "vendor": "Microsoft",
+            "affected_product": "Microsoft 365 Apps / Office 2021",
+            "affected_assets_count": 128,
+            "is_ignored": False,
+        },
+        {
+            "cve_id": "CVE-2023-4863",
+            "title": "Google Chrome libwebp Heap Buffer Overflow",
+            "description": "Heap buffer overflow in libwebp in Google Chrome prior to 116.0.5845.187 allowed a remote attacker to perform an out-of-bounds memory write via a crafted HTML page.",
+            "risk_score": 8.8,
+            "severity": "high",
+            "patch_available": True,
+            "exploited_in_wild": True,
+            "vendor": "Google",
+            "affected_product": "Google Chrome Browser 116.x",
+            "affected_assets_count": 215,
+            "is_ignored": False,
+        },
+        {
+            "cve_id": "CVE-2021-44228",
+            "title": "Apache Log4j JNDI Remote Code Execution (Log4Shell)",
+            "description": "Apache Log4j2 JNDI features used in configuration, log messages, and parameters do not protect against attacker controlled LDAP and other JNDI related endpoints.",
+            "risk_score": 10.0,
+            "severity": "critical",
+            "patch_available": True,
+            "exploited_in_wild": True,
+            "vendor": "Apache",
+            "affected_product": "Log4j Core 2.0-beta9 to 2.15.0",
+            "affected_assets_count": 310,
+            "is_ignored": False,
+        },
+        {
+            "cve_id": "CVE-2023-38606",
+            "title": "Apple Kernel In-the-Wild Exploitation Vulnerability",
+            "description": "An app may be able to modify sensitive kernel state. Apple is aware of a report that this issue may have been exploited against versions of iOS released before iOS 15.7.",
+            "risk_score": 8.4,
+            "severity": "high",
+            "patch_available": True,
+            "exploited_in_wild": True,
+            "vendor": "Apple",
+            "affected_product": "macOS Ventura & iOS Enterprise",
+            "affected_assets_count": 52,
+            "is_ignored": False,
+        },
+    ]
+
+    default_ignored_cves = [
+        {
+            "cve_id": "CVE-2024-3094",
+            "title": "XZ Utils Backdoor in Release Archives",
+            "description": "Malicious code was introduced into XZ Utils release archives and could enable unauthorized access on affected Linux systems.",
+            "risk_score": 10.0,
+            "severity": "critical",
+            "patch_available": True,
+            "exploited_in_wild": False,
+            "vendor": "XZ Utils",
+            "affected_product": "XZ Utils 5.6.0 and 5.6.1",
+            "affected_assets_count": 12,
+            "is_ignored": True,
+        },
+        {
+            "cve_id": "CVE-2021-41773",
+            "title": "Apache HTTP Server Path Traversal Vulnerability",
+            "description": "A path normalization flaw in Apache HTTP Server 2.4.49 could allow path traversal and, under specific configurations, remote code execution.",
+            "risk_score": 7.5,
+            "severity": "high",
+            "patch_available": True,
+            "exploited_in_wild": True,
+            "vendor": "Apache",
+            "affected_product": "Apache HTTP Server 2.4.49",
+            "affected_assets_count": 8,
+            "is_ignored": True,
+        },
+        {
+            "cve_id": "CVE-2023-22515",
+            "title": "Atlassian Confluence Data Center Privilege Escalation",
+            "description": "An improper authorization issue in Confluence Data Center and Server could allow an unauthenticated attacker to create an administrator account.",
+            "risk_score": 10.0,
+            "severity": "critical",
+            "patch_available": True,
+            "exploited_in_wild": True,
+            "vendor": "Atlassian",
+            "affected_product": "Confluence Data Center and Server",
+            "affected_assets_count": 5,
+            "is_ignored": True,
+        },
+    ]
+
+    for cve_data in default_cves + default_ignored_cves:
+        cve = db.query(Vulnerability).filter(Vulnerability.cve_id == cve_data["cve_id"]).first()
+        if not cve:
+            db.add(Vulnerability(**cve_data))
+    db.commit()
+
     logger.info("Database initialization and seed completed successfully.")

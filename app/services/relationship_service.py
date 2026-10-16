@@ -55,6 +55,16 @@ class RelationshipService:
                 type=a.asset_type,
                 status=a.status,
                 ip=a.primary_ip,
+                manufacturer=a.manufacturer,
+                model=a.model,
+                operating_system=a.operating_system,
+                environment=a.environment,
+                department=a.department,
+                mac_addresses=a.mac_addresses,
+                cpu_info=a.cpu_info,
+                memory_gb=a.memory_gb,
+                storage_gb=a.storage_gb,
+                lifecycle_status=a.lifecycle_status,
             )
             for a in assets
         ]

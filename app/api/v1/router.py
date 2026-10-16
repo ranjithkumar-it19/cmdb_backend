@@ -10,6 +10,7 @@ from app.api.v1.endpoints import (
     audit_logs,
     health,
     business_services,
+    risk_insights,
 )
 
 api_router = APIRouter()
@@ -21,6 +22,7 @@ api_router.include_router(imports.router, prefix="/imports", tags=["CSV Import &
 api_router.include_router(relationships.router, prefix="/relationships", tags=["CMDB Relationships"])
 api_router.include_router(software.router, prefix="/software", tags=["Software Inventory"])
 api_router.include_router(dashboard.router, prefix="/dashboard", tags=["Dashboard & Metrics"])
+api_router.include_router(risk_insights.router, prefix="/risk-insights", tags=["Risk Insights & Atlas Telemetry"])
 api_router.include_router(audit_logs.router, prefix="/audit-logs", tags=["Audit Trail"])
 api_router.include_router(health.router, prefix="/health", tags=["Health & Readiness"])
 api_router.include_router(business_services.router, prefix="/business-services", tags=["Business Services"])

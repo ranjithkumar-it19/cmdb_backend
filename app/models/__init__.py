@@ -8,6 +8,7 @@ from app.models.relationship import AssetRelationship
 from app.models.change_history import AssetChangeEvent
 from app.models.audit import AuditLog, ReconciliationRule
 from app.models.business_service import BusinessService, BusinessServiceAsset
+from app.models.vulnerability import Vulnerability, AssetVulnerability
 
 __all__ = [
     "Base",
@@ -35,4 +36,6 @@ __all__ = [
     "ReconciliationRule",
     "BusinessService",
     "BusinessServiceAsset",
+    "Vulnerability",
+    "AssetVulnerability",
 ]

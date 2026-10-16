@@ -31,6 +31,16 @@ class RelationshipGraphNode(BaseModel):
     type: str
     status: str
     ip: Optional[str] = None
+    manufacturer: Optional[str] = None
+    model: Optional[str] = None
+    operating_system: Optional[str] = None
+    environment: Optional[str] = None
+    department: Optional[str] = None
+    mac_addresses: Optional[str] = None
+    cpu_info: Optional[str] = None
+    memory_gb: Optional[float] = None
+    storage_gb: Optional[float] = None
+    lifecycle_status: Optional[str] = None
 
 
 class RelationshipGraphEdge(BaseModel):

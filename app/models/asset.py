@@ -41,6 +41,9 @@ class Asset(Base, TimestampMixin):
     # Status & Life-cycle
     status: Mapped[str] = mapped_column(String(50), default="active", index=True, nullable=False)
     confidence_score: Mapped[float] = mapped_column(Float, default=1.0, nullable=False)
+    department: Mapped[Optional[str]] = mapped_column(String(100), default="IT", index=True, nullable=True)
+    lifecycle_status: Mapped[Optional[str]] = mapped_column(String(50), default="supported", index=True, nullable=True)
+    is_server: Mapped[bool] = mapped_column(Boolean, default=False, index=True, nullable=False)
     first_discovered_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
     last_discovered_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), index=True, nullable=True)
 

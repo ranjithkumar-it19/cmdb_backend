@@ -65,12 +65,21 @@ async def request_logging_middleware(request: Request, call_next):
     except Exception as exc:
         process_time = round((time.time() - start_time) * 1000, 2)
         logger.error(f"Unhandled exception during {request.method} {request.url.path} [req:{request_id}]: {exc}", exc_info=True)
+        origin = request.headers.get("origin")
+        headers = {
+            "X-Request-ID": request_id,
+            "X-Process-Time-Ms": str(process_time),
+        }
+        if origin and (origin in settings.BACKEND_CORS_ORIGINS or "*" in settings.BACKEND_CORS_ORIGINS):
+            headers["Access-Control-Allow-Origin"] = origin
+            headers["Access-Control-Allow-Credentials"] = "true"
         return JSONResponse(
             status_code=500,
             content={
                 "detail": "An internal server error occurred. Please contact the administrator.",
                 "request_id": request_id,
             },
+            headers=headers,
         )
 
 
